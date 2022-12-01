@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Advent of code - Day 1/2022</title>
+  </head>
+  <body>
+    <input type="file" name="inputfile" id="inputfile" />
+    <br />
+
+    <pre id="output"></pre>
+
+    <script type="text/javascript">
+      document
+        .getElementById("inputfile")
+        .addEventListener("change", function () {
+          const fr = new FileReader();
+
+          function compareNumbers(a, b) {
+            return b - a;
+          }
+          fr.onload = function () {
+            const arr = fr.result.replaceAll("\n\n", ",").split(",");
+            const newA = arr.map((a) => a.split("\n").map(Number));
+            const newB = newA
+              .map((a) => a.reduce((acc, cur) => acc + cur, 0))
+              .sort(compareNumbers);
+
+            // Part 1
+            const maxPart1 = Math.max(...newB);
+            console.log(maxPart1);
+
+            // Part 2
+            const maxPart2 = newB
+              .slice(0, 3) //get the range
+              .reduce((a, b) => a + b); //sum up
+            console.log(maxPart2);
+          };
+
+          fr.readAsText(this.files[0]);
+        });
+    </script>
+  </body>
+</html>
