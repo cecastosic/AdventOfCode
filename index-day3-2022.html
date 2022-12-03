@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Advent of code - Day 3/2022</title>
+  </head>
+  <body>
+    <input type="file" name="inputfile" id="inputfile" />
+    <br />
+
+    <pre id="output"></pre>
+
+    <script type="text/javascript">
+      document
+        .getElementById("inputfile")
+        .addEventListener("change", function () {
+          const fr = new FileReader();
+          fr.onload = function () {
+            const map = [
+              { a: 1 },
+              { b: 2 },
+              { c: 3 },
+              { d: 4 },
+              { e: 5 },
+              { f: 6 },
+              { g: 7 },
+              { h: 8 },
+              { i: 9 },
+              { j: 10 },
+              { k: 11 },
+              { l: 12 },
+              { m: 13 },
+              { n: 14 },
+              { o: 15 },
+              { p: 16 },
+              { q: 17 },
+              { r: 18 },
+              { s: 19 },
+              { t: 20 },
+              { u: 21 },
+              { v: 22 },
+              { w: 23 },
+              { x: 24 },
+              { y: 25 },
+              { z: 26 },
+              { A: 27 },
+              { B: 28 },
+              { C: 29 },
+              { D: 30 },
+              { E: 31 },
+              { F: 32 },
+              { G: 33 },
+              { H: 34 },
+              { I: 35 },
+              { J: 36 },
+              { K: 37 },
+              { L: 38 },
+              { M: 39 },
+              { N: 40 },
+              { O: 41 },
+              { P: 42 },
+              { Q: 43 },
+              { R: 44 },
+              { S: 45 },
+              { T: 46 },
+              { U: 47 },
+              { V: 48 },
+              { W: 49 },
+              { X: 50 },
+              { Y: 51 },
+              { Z: 52 },
+            ];
+            const arr = fr.result
+              .replaceAll("\n", ",")
+              .split(",")
+              .map((str) => str.replace(" ", ""))
+              .filter((str) => str !== "");
+            console.log(arr);
+
+            const total1 = arr
+              .map((str) => [
+                str.slice(0, str.length / 2),
+                str.slice(str.length / 2),
+              ])
+              .map((arr) => arr[0].split("").filter((a) => arr[1].includes(a)))
+              .map((arr) => {
+                const p = map.find((o) => o[arr[0]]);
+                return p[arr[0]];
+              })
+              .reduce((acc, curr) => acc + curr, 0);
+
+            console.log(total1);
+
+            // PART 2
+            const arr2 = [];
+            for (let num = 0; num < arr.length; num += 3) {
+              arr2.push([arr[num], arr[num + 1], arr[num + 2]]);
+            }
+            console.log(arr2);
+            const total2 = arr2
+              .map((arr) => {
+                const check1 = arr[0].split("").filter((a) => arr[1].includes(a));
+                return check1.filter((a) => arr[2].includes(a));
+              })
+              .map((arr) => {
+                const p = map.find((o) => o[arr[0]]);
+                return p[arr[0]];
+              })
+              .reduce((acc, curr) => acc + curr, 0);
+
+            console.log(total2);
+          };
+          fr.readAsText(this.files[0]);
+        });
+    </script>
+  </body>
+</html>
