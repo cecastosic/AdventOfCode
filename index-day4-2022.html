@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Advent of code - Day 4/2022</title>
+  </head>
+  <body>
+    <input type="file" name="inputfile" id="inputfile" />
+    <br />
+
+    <pre id="output"></pre>
+
+    <script type="text/javascript">
+      document
+        .getElementById("inputfile")
+        .addEventListener("change", function () {
+          const fr = new FileReader();
+          fr.onload = function () {
+            //PART 1
+            const arr = fr.result
+              .replaceAll("\n", " ")
+              .split(" ")
+              .map((str) => str.replace(" ", "").split(","))
+              .filter((arr) => arr != "")
+              .map((arr) => {
+                return [arr[0].split("-"), arr[1].split("-")];
+              })
+              .map((arr) => {
+                const a = [];
+                const b = [];
+                for (
+                  let i = parseInt(arr[0][0]);
+                  i <= parseInt(arr[0][1]);
+                  i++
+                ) {
+                  a.push(i);
+                }
+                for (
+                  let j = parseInt(arr[1][0]);
+                  j <= parseInt(arr[1][1]);
+                  j++
+                ) {
+                  b.push(j);
+                }
+                return [a, b];
+              });
+
+            const total1 = arr
+              .map((arr) => {
+                if (arr[0].length <= arr[1].length) {
+                  return arr[0].every((num) => arr[1].includes(num));
+                }
+                return arr[1].every((num) => arr[0].includes(num));
+              })
+              .filter((n) => n).length;
+            console.log(total1);
+
+            // PART 2
+            const total2 = arr
+              .map((arr) => {
+                if (arr[0].length <= arr[1].length) {
+                  return arr[0].some((num) => arr[1].includes(num));
+                }
+                return arr[1].some((num) => arr[0].includes(num));
+              })
+              .filter((n) => n).length;
+            console.log(total2);
+          };
+
+          fr.readAsText(this.files[0]);
+        });
+    </script>
+  </body>
+</html>
