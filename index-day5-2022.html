@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Advent of code - Day 5/2022</title>
+  </head>
+  <body>
+    <input type="file" name="inputfile" id="inputfile" />
+    <br />
+
+    <pre id="output"></pre>
+
+    <script type="text/javascript">
+      document
+        .getElementById("inputfile")
+        .addEventListener("change", function () {
+          const fr = new FileReader();
+          fr.onload = function () {
+            //PART 1
+            const arr = [
+              [["D"], ["H"], ["N"], ["Q"], ["T"], ["W"], ["V"], ["B"]],
+              [["D"], ["W"], ["B"]],
+              [["T"], ["S"], ["Q"], ["W"], ["J"], ["C"]],
+              [["F"], ["J"], ["R"], ["N"], ["Z"], ["T"], ["P"]],
+              [["G"], ["P"], ["V"], ["J"], ["M"], ["S"], ["T"]],
+              [["B"], ["W"], ["F"], ["T"], ["N"]],
+              [["B"], ["L"], ["D"], ["Q"], ["F"], ["H"], ["V"], ["N"]],
+              [["H"], ["P"], ["F"], ["R"]],
+              [["Z"], ["S"], ["M"], ["B"], ["L"], ["N"], ["P"], ["H"]],
+            ];
+
+            const moves = fr.result
+              .replaceAll("\n", ",")
+              .split(",")
+              .filter((str) => str !== "")
+              .map((arr) =>
+                arr
+                  .replaceAll(/move|from|to/g, "")
+                  .split(" ")
+                  .filter((str) => str !== "")
+                  .map(Number)
+              );
+
+            moves.forEach((el) => {
+              for (let i = 0; i < el[0]; i++) {
+                const char = arr[el[1] - 1].pop();
+                arr[el[2] - 1].push(char);
+              }
+            });
+
+            const solution = [];
+            for (let i = 0; i < 9; i++) {
+              solution.push(...arr[i].pop());
+            }
+
+            console.log(solution.join(""));
+
+            // PART 2
+            let brr = [
+              [["D"], ["H"], ["N"], ["Q"], ["T"], ["W"], ["V"], ["B"]],
+              [["D"], ["W"], ["B"]],
+              [["T"], ["S"], ["Q"], ["W"], ["J"], ["C"]],
+              [["F"], ["J"], ["R"], ["N"], ["Z"], ["T"], ["P"]],
+              [["G"], ["P"], ["V"], ["J"], ["M"], ["S"], ["T"]],
+              [["B"], ["W"], ["F"], ["T"], ["N"]],
+              [["B"], ["L"], ["D"], ["Q"], ["F"], ["H"], ["V"], ["N"]],
+              [["H"], ["P"], ["F"], ["R"]],
+              [["Z"], ["S"], ["M"], ["B"], ["L"], ["N"], ["P"], ["H"]],
+            ];
+
+            moves.forEach((el) => {
+              const chars = brr[el[1] - 1].slice(-el[0]);
+              brr[el[1] - 1].splice(brr[el[1] - 1].length - el[0], el[0]);
+              const replace = brr[el[2] - 1].concat(chars);
+              brr[el[2] - 1] = replace;
+              //}
+            });
+
+            const solution2 = [];
+            for (let i = 0; i < 9; i++) {
+              solution2.push(...brr[i].pop());
+            }
+
+            console.log(solution2.join(""));
+          };
+
+          fr.readAsText(this.files[0]);
+        });
+    </script>
+  </body>
+</html>
